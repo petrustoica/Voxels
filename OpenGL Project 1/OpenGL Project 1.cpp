@@ -9,7 +9,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "SHADER_H.h"
+#include "shader.h"
+#include "camera.h"
 
 #include "stb_image.h"
 
@@ -57,16 +58,20 @@ float vertices[] = {
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
+Camera camera;
+
 unsigned int indices[] = {  // note that we start from 0!
 	0, 1, 3,   // first triangle
 	1, 2, 3    // second triangle
 };
 
-const int height = 800;
-const int width = 800 * 16 / 9;
+bool firstMouse = true;
+const int height = 900;
+const int width = 900 * 16 / 9;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 
 int main(){
 	glfwInit();
@@ -83,6 +88,8 @@ int main(){
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(window, mouse_callback);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialize Glad" << std::endl;
@@ -131,14 +138,13 @@ int main(){
 	{
 		std::cout << "Failed to load texture" << std::endl;
 	}
-
 	stbi_image_free(data);
 
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
+
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -148,8 +154,12 @@ int main(){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shaderProgram.use();
+
+		glm::mat4 view = glm::mat4(1.0f);
+		view = camera.GetViewMatrix();
+
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		
 		int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -166,7 +176,7 @@ int main(){
 		glBindVertexArray(VAO);
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -182,4 +192,26 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
 	}
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+		camera.ProcessKeyboard(FORWARD, 0.0003f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		camera.ProcessKeyboard(LEFT, 0.0003f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+		camera.ProcessKeyboard(BACKWARD, 0.0003f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		camera.ProcessKeyboard(RIGHT, 0.0003f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+		camera.ProcessKeyboard(UP, 0.0003f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+		camera.ProcessKeyboard(DOWN, 0.0003f);
+	}
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+	camera.ProcessMouseMovement(xpos, ypos);
 }
