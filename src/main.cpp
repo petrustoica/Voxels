@@ -1,8 +1,7 @@
-#include <glad/glad.h>
+#include "glad.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
-#include <Windows.h>
 #include <cmath>
 
 #include <glm/glm.hpp>
@@ -82,7 +81,7 @@ int main(){
 	
 	GLFWwindow* window = glfwCreateWindow(width, height, "Voxel", NULL, NULL);
 	if (window == NULL) {
-		std::cout << "Failed to create a glfw window" << std::endl;
+		std::cout << "Failed to create a glfw window\n";
 		glfwTerminate();
 		return -1;
 	}
@@ -92,7 +91,7 @@ int main(){
 	glfwSetCursorPosCallback(window, mouse_callback);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		std::cout << "Failed to initialize Glad" << std::endl;
+		std::cout << "Failed to initialize Glad\n";
 		return -1;
 	}
 
@@ -115,7 +114,7 @@ int main(){
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	Shader shaderProgram("Shaders/shader.vert", "Shaders/shader.frag");
+	Shader shaderProgram("../shaders/shader.vert", "../shaders/shader.frag");
 
 
 	unsigned int texture0;
@@ -128,7 +127,7 @@ int main(){
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load and generate the texture
 	int width, height, nrChannels;
-	unsigned char* data = stbi_load("assets/textures/blocks/image.png", &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load("../assets/textures/blocks/image.png", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -136,7 +135,7 @@ int main(){
 	}
 	else
 	{
-		std::cout << "Failed to load texture" << std::endl;
+		std::cout << "Failed to load texture\n";
 	}
 	stbi_image_free(data);
 
@@ -193,22 +192,22 @@ void processInput(GLFWwindow* window) {
 		glfwSetWindowShouldClose(window, true);
 	}
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		camera.ProcessKeyboard(FORWARD, 0.0003f);
+		camera.ProcessKeyboard(FORWARD, 0.003f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		camera.ProcessKeyboard(LEFT, 0.0003f);
+		camera.ProcessKeyboard(LEFT, 0.003f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		camera.ProcessKeyboard(BACKWARD, 0.0003f);
+		camera.ProcessKeyboard(BACKWARD, 0.003f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		camera.ProcessKeyboard(RIGHT, 0.0003f);
+		camera.ProcessKeyboard(RIGHT, 0.003f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		camera.ProcessKeyboard(UP, 0.0003f);
+		camera.ProcessKeyboard(UP, 0.003f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		camera.ProcessKeyboard(DOWN, 0.0003f);
+		camera.ProcessKeyboard(DOWN, 0.003f);
 	}
 }
 
