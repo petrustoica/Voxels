@@ -72,8 +72,15 @@ int main(){
 		for (int y = 5; y < 8; y++)
 			for (int z = 4; z < 12; z++)
 				chunk.setBlock(glm::ivec3(x, y, z), Block("air"));
-	
-	chunk.setBlock(glm::ivec3(8, 8, 8), Block("skibidi"));
+	for (int x = 2; x < 14; x++)
+		for (int z = 2; z < 14; z++)
+			chunk.setBlock(glm::ivec3(x, 8, z), Block("oak_planks"));
+	for (int x = 3; x < 13; x++)
+		for (int z = 3; z < 13; z++)
+			chunk.setBlock(glm::ivec3(x, 9, z), Block("oak_planks"));
+	for (int y = 5; y < 7; y++)
+		for (int x = 7; x < 9; x++)
+			chunk.setBlock(glm::ivec3(x, y, 3), Block("air"));
 
 	glEnable(GL_CULL_FACE);
 
