@@ -55,7 +55,7 @@ void Chunk::loadTextures(){
 
             Chunk::blockTextures[entry.path().stem().string()] = texture;
         } else {
-            printf("texture loader crapped pants");
+            printf("texture loader failed loading %s\n", entry.path().string().c_str());
         }
         stbi_image_free(data);
     } 
@@ -88,19 +88,19 @@ void Chunk::renderChunk() {
         for (int y = 0; y < 16; y++)
             for (int z = 0; z < 16; z++){
                 if (Chunk::blocks[x][y][z].getBlockID() == "air") continue;
-                for (int face = 0; face < 6; face++)
-                    switch(face) {
-                        case 0:
-                            if (!Chunk::blockTextures[Chunk::blocks[x][y][z].getBlockID().append("")])
-                                glBindTexture(GL_TEXTURE_2D, Chunk::blockTextures["notexture"]);
-                            else
-                                glBindTexture(GL_TEXTURE_2D, Chunk::blockTextures[Chunk::blocks[x][y][z].getBlockID().append("")]);
-                            model = glm::mat4(1.0f);
-                            model = glm::translate(model, glm::vec3(chunkPosition.x + x - 7, chunkPosition.y + y - 7, chunkPosition.z + z - 7));
-                            model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-                            glUniformMatrix4fv(Chunk::modelLocation, 1, GL_FALSE, glm::value_ptr(model));
-                            glDrawArrays(GL_TRIANGLES, 0, 36);
-                            break;
-                    }
+                // for (int face = 0; face < 6; face++)
+                //     switch(face) {
+                //         case 0:
+                if (!Chunk::blockTextures[Chunk::blocks[x][y][z].getBlockID().append("")])
+                    glBindTexture(GL_TEXTURE_2D, Chunk::blockTextures["notexture"]);
+                else
+                    glBindTexture(GL_TEXTURE_2D, Chunk::blockTextures[Chunk::blocks[x][y][z].getBlockID().append("")]);
+                model = glm::mat4(1.0f);
+                model = glm::translate(model, glm::vec3(chunkPosition.x + x - 7, chunkPosition.y + y - 7, chunkPosition.z + z - 7));
+                model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+                glUniformMatrix4fv(Chunk::modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+                glDrawArrays(GL_TRIANGLES, 0, 36);
+                //          break;
+                //     } 
                 }
 }

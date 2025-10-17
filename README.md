@@ -1,1 +1,1 @@
-# OpenGL Project 1
+# Voxels

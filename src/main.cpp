@@ -1,6 +1,5 @@
 #include "glad.h"
 #include <GLFW/glfw3.h>
-#include <fstream>
 #include <cmath>
 
 #include <glm/glm.hpp>
@@ -23,6 +22,7 @@ int width = 900 * 16 / 9;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void keyboard_callback();
 
 int main(){
 	glfwInit();
@@ -31,7 +31,7 @@ int main(){
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	stbi_set_flip_vertically_on_load(true);
 	
-	GLFWwindow* window = glfwCreateWindow(width, height, "Voxel", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(width, height, "Voxels", NULL, NULL);
 	if (window == NULL) {
 		printf("Failed to create a glfw window\n");
 		glfwTerminate();
@@ -72,6 +72,8 @@ int main(){
 		for (int y = 5; y < 8; y++)
 			for (int z = 4; z < 12; z++)
 				chunk.setBlock(glm::ivec3(x, y, z), Block("air"));
+	
+	chunk.setBlock(glm::ivec3(8, 8, 8), Block("skibidi"));
 
 	glEnable(GL_CULL_FACE);
 
@@ -102,27 +104,32 @@ void framebuffer_size_callback(GLFWwindow* window, int newWidth, int newHeight) 
 	glViewport(0, 0, width, height);
 }
 
+double lastTime = glfwGetTime();
 void processInput(GLFWwindow* window) {
+	double deltaTime = glfwGetTime() - lastTime;
+	lastTime = glfwGetTime();
+	if (deltaTime <= 0) return;
+
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
 	}
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		camera.ProcessKeyboard(FORWARD, 0.003f);
+		camera.ProcessKeyboard(FORWARD, 2.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		camera.ProcessKeyboard(LEFT, 0.003f);
+		camera.ProcessKeyboard(LEFT, 2.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		camera.ProcessKeyboard(BACKWARD, 0.003f);
+		camera.ProcessKeyboard(BACKWARD, 2.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		camera.ProcessKeyboard(RIGHT, 0.003f);
+		camera.ProcessKeyboard(RIGHT, 2.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		camera.ProcessKeyboard(UP, 0.003f);
+		camera.ProcessKeyboard(UP, 2.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		camera.ProcessKeyboard(DOWN, 0.003f);
+		camera.ProcessKeyboard(DOWN, 2.0f * deltaTime);
 	}
 }
 
