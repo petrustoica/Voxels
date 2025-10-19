@@ -7,6 +7,7 @@ Voxels is a C++ voxel engine built with OpenGL and GLFW, designed for chunk-base
 - Autoloading of block textures with hashmaps for O(1) time lookup.
 - OpenGL math done using the GLM library with matrices for transformations and rendering.
 - Cross-platform build with CMake, works out-of-the-box.
+- Culling of invisible faces between solid blocks.
 
 # Build and Run
 ```bash
