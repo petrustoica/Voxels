@@ -11,6 +11,7 @@ private:
     glm::ivec3 chunkPosition;
     glm::vec3 faceTranslation;
     Block blocks[16][16][16];
+    char blockFaceVisibility[16][16][16];
     static std::unordered_map<std::string, GLsizei> blockTextures;
     static GLuint blockVBO;
     static GLuint blockVAO;
@@ -62,6 +63,7 @@ private:
         };
 
     void draw();
+    void updateVisibilityOfBlockFaces(glm::ivec3 blockChunkPos);
     void generateBlockBuffers();
     void loadTextures();
 

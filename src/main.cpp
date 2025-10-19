@@ -82,6 +82,8 @@ int main(){
 		for (int x = 7; x < 9; x++)
 			chunk.setBlock(glm::ivec3(x, y, 3), Block("air"));
 
+	chunk.setBlock(glm::ivec3(8, 9, 8), Block("oak_planks"));
+
 	glEnable(GL_CULL_FACE);
 
 	while (!glfwWindowShouldClose(window)) {
@@ -90,7 +92,7 @@ int main(){
 		processInput(window);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		
 		chunk.renderChunk();
 
 		view = camera.GetViewMatrix();
