@@ -82,7 +82,10 @@ int main(){
 		for (int x = 7; x < 9; x++)
 			chunk.setBlock(glm::ivec3(x, y, 3), Block("air"));
 
-	chunk.setBlock(glm::ivec3(8, 9, 8), Block("oak_planks"));
+	for (int x = 0; x < 16; x++)
+		for (int y = 0; y < 16; y++)
+			for (int z = 0; z < 16; z++)
+				chunk.setBlock(glm::ivec3(x, y, z), Block("bricks"));
 
 	glEnable(GL_CULL_FACE);
 
@@ -123,22 +126,22 @@ void processInput(GLFWwindow* window) {
 		glfwSetWindowShouldClose(window, true);
 	}
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		camera.ProcessKeyboard(FORWARD, 2.0f * deltaTime);
+		camera.ProcessKeyboard(FORWARD, 4.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		camera.ProcessKeyboard(LEFT, 2.0f * deltaTime);
+		camera.ProcessKeyboard(LEFT, 4.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		camera.ProcessKeyboard(BACKWARD, 2.0f * deltaTime);
+		camera.ProcessKeyboard(BACKWARD, 4.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		camera.ProcessKeyboard(RIGHT, 2.0f * deltaTime);
+		camera.ProcessKeyboard(RIGHT, 4.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		camera.ProcessKeyboard(UP, 2.0f * deltaTime);
+		camera.ProcessKeyboard(UP, 4.0f * deltaTime);
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		camera.ProcessKeyboard(DOWN, 2.0f * deltaTime);
+		camera.ProcessKeyboard(DOWN, 4.0f * deltaTime);
 	}
 }
 

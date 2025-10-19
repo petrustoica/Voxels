@@ -84,12 +84,12 @@ void Chunk::updateVisibilityOfBlockFaces(glm::ivec3 blockChunkPos) {
         return;
     Chunk::blockFaceVisibility[blockChunkPos.x][blockChunkPos.y][blockChunkPos.z] = 
         0b00111111 -
-        ((blockChunkPos.x >= 1  && !(Chunk::blocks[blockChunkPos.x + 1][blockChunkPos.y][blockChunkPos.z].getBlockID() == "air")) << 0) -
-        ((blockChunkPos.y >= 1  && !(Chunk::blocks[blockChunkPos.x][blockChunkPos.y + 1][blockChunkPos.z].getBlockID() == "air")) << 1) -
-        ((blockChunkPos.z >= 1  && !(Chunk::blocks[blockChunkPos.x][blockChunkPos.y][blockChunkPos.z + 1].getBlockID() == "air")) << 2) -
-        ((blockChunkPos.x <= 14 && !(Chunk::blocks[blockChunkPos.x - 1][blockChunkPos.y][blockChunkPos.z].getBlockID() == "air")) << 3) -
-        ((blockChunkPos.y <= 14 && !(Chunk::blocks[blockChunkPos.x][blockChunkPos.y - 1][blockChunkPos.z].getBlockID() == "air")) << 4) -
-        ((blockChunkPos.z <= 14 && !(Chunk::blocks[blockChunkPos.x][blockChunkPos.y][blockChunkPos.z - 1].getBlockID() == "air")) << 5);
+        ((blockChunkPos.x <= 14  && !(Chunk::blocks[blockChunkPos.x + 1][blockChunkPos.y][blockChunkPos.z].getBlockID() == "air")) << 0) -
+        ((blockChunkPos.y <= 14  && !(Chunk::blocks[blockChunkPos.x][blockChunkPos.y + 1][blockChunkPos.z].getBlockID() == "air")) << 1) -
+        ((blockChunkPos.z <= 14  && !(Chunk::blocks[blockChunkPos.x][blockChunkPos.y][blockChunkPos.z + 1].getBlockID() == "air")) << 2) -
+        ((blockChunkPos.x >= 1 && !(Chunk::blocks[blockChunkPos.x - 1][blockChunkPos.y][blockChunkPos.z].getBlockID() == "air")) << 3) -
+        ((blockChunkPos.y >= 1 && !(Chunk::blocks[blockChunkPos.x][blockChunkPos.y - 1][blockChunkPos.z].getBlockID() == "air")) << 4) -
+        ((blockChunkPos.z >= 1 && !(Chunk::blocks[blockChunkPos.x][blockChunkPos.y][blockChunkPos.z - 1].getBlockID() == "air")) << 5);
 }
 
 void Chunk::setBlock(glm::ivec3 blockChunkPos, Block block) {
@@ -120,7 +120,7 @@ void Chunk::renderChunk() {
                 else
                     glBindTexture(GL_TEXTURE_2D, Chunk::blockTextures[Chunk::blocks[x][y][z].getBlockID().append("")]);
                 model = glm::mat4(1.0f);
-                model = glm::translate(model, glm::vec3(chunkPosition.x + x - 7, chunkPosition.y + y - 7, chunkPosition.z + z - 7));
+                model = glm::translate(model, glm::vec3(chunkPosition.x * 16 + x - 7, chunkPosition.y * 16 + y - 7, chunkPosition.z * 16 + z - 7));
                 model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
                 glUniformMatrix4fv(Chunk::modelLocation, 1, GL_FALSE, glm::value_ptr(model));
                 
