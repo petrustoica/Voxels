@@ -1,0 +1,9 @@
+{
+    "air": {},
+    "no_texture": {"texture": "block/notexture"},
+    "dirt": {"texture": "block/dirt"},
+    "stone": {"texture": "block/stone"},
+    "bricks": {"texture": "block/bricks"},
+    "stone_bricks": {"texture": "block/stone_bricks"},
+    "oak_planks": {"texture": "block/oak_planks"} 
+}

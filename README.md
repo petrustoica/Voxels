@@ -21,4 +21,5 @@ cmake --build .
 ```
 
 # Screenshots
-<img src="./images/classic_house.png" width="792" height="443"/>
+<img src="./images/inside_cube_of_spaced_cubes.png" width="800" height="489"/>
+<img src="./images/cube_of_spaced_cubes.png" width="800" height="826"/>
